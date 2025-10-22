@@ -31,42 +31,42 @@ to display characters and episodes using offline caching and pagination.
 Each layer depends only on the layer below it and communicates via interfaces, ensuring testability and maintainability.
 
 # 🧱 Tech Stack
-- ** Layer	Technology
-- ** UI / Presentation	Jetpack Compose (or XML), ViewModel, LiveData / Flow
-- ** Domain	Kotlin coroutines, UseCases, Repository interfaces
-- ** Data	Room (offline caching), Retrofit (network), Paging 3 (infinite scrolling)
-- ** DI	Hilt
-- ** Networking	OkHttp, Retrofit, Gson
-- ** Other	Coroutines, Flow, Result wrappers, SafeCall utilities
+- Layer	Technology
+- UI / Presentation	Jetpack Compose (or XML), ViewModel, LiveData / Flow
+- Domain	Kotlin coroutines, UseCases, Repository interfaces
+- Data	Room (offline caching), Retrofit (network), Paging 3 (infinite scrolling)
+- DI	Hilt
+- Networking	OkHttp, Retrofit, Gson
+- Other	Coroutines, Flow, Result wrappers, SafeCall utilities
 
 
 # 🧠 Key Components
-- ** ViewModel (Presentation Logic)
+- ViewModel (Presentation Logic)
 
 Each screen (e.g., Episodes, Characters) has its own ViewModel that:
 Exposes UI state via StateFlow or LiveData.
 Invokes repository methods to fetch or update data.
 Handles loading and error states.
 
-- ** Repository Layer
+- Repository Layer
 
 Repositories bridge Domain and Data layers.
 They expose abstracted methods like getEpisodesStream() or getCharacter(id) without UI knowing where data comes from (network or database).
 
-- ** Remote Layer
+- Remote Layer
 
 All API calls are centralized in a Retrofit interface: RnMApiService
 
-- ** Local Layer (Room)
+- Local Layer (Room)
 
 Room provides offline caching and serves as a single source of truth for UI.
 
-- ** Paging 3 + RemoteMediator
+- Paging 3 + RemoteMediator
 
 Paging ensures seamless loading of data from both network and local cache.
 EpisodesRemoteMediator coordinates between network and database:
 
-- ** Dependency Injection (Hilt)
+- Dependency Injection (Hilt)
 
 All major components are injected via Hilt:
 NetworkModule — provides Retrofit and OkHttp
