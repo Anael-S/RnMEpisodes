@@ -19,7 +19,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.anael.rickandmorty.test.AppTestRunner"
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
@@ -120,7 +120,6 @@ dependencies {
     kaptAndroidTest(libs.hilt.android.compiler)
 
     // Testing dependencies
-    debugImplementation(libs.androidx.monitor)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.arch.core.testing)
     androidTestImplementation(libs.androidx.espresso.contrib)
@@ -134,6 +133,9 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.accessibility.test.framework)
     androidTestImplementation(libs.kotlinx.coroutines.test)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.androidx.test.core.ktx)
     testImplementation(libs.junit)
 }
 

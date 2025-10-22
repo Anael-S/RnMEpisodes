@@ -8,7 +8,7 @@ import com.anael.rickandmorty.domain.model.Episode
 fun EpisodeDto.toEntity() = EpisodeEntity(
     id = id,
     name = name,
-    airDate = airingDate,
+    airDate = airDate,
     episodeCode = episode,
     characters = characters,
     url = url,
@@ -19,7 +19,7 @@ fun EpisodeDto.toEntity() = EpisodeEntity(
 fun EpisodeEntity.toDto() = EpisodeDto(
     id = id,
     name = name,
-    airingDate = airDate,
+    airDate = airDate,
     episode = episodeCode,
     characters = characters,
     url = url,
@@ -30,7 +30,7 @@ fun EpisodeEntity.toDto() = EpisodeDto(
 fun EpisodeDto.toDomain() = Episode(
     id = id,
     name = name,
-    airDate = airingDate,
+    airDate = airDate,
     episodeCode = episode,
     characters = characters
 )

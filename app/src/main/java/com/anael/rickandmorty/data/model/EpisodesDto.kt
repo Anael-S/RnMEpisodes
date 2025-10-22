@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 data class EpisodeDto(
     @field:SerializedName("id") val id: Int,
     @field:SerializedName("name") val name: String,
-    @field:SerializedName("air_date") val airingDate: String,
+    @field:SerializedName("air_date") val airDate: String,
     @field:SerializedName("episode") val episode: String,
     @field:SerializedName("characters") val characters: List<String>,
     @field:SerializedName("url") val url: String,

@@ -30,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -42,6 +43,13 @@ import com.anael.rickandmorty.R
 import com.anael.rickandmorty.domain.model.Episode
 import com.anael.rickandmorty.presentation.compose.utils.rememberFormatDateTime
 import com.anael.rickandmorty.presentation.viewmodel.EpisodesViewModel
+
+object TestTags {
+    const val EPISODES_LIST = "episodes_list"
+    const val INITIAL_LOADER = "initial_loader"
+    const val APPEND_LOADER = "append_loader"
+    const val ERROR_EMPTY = "error_empty"
+}
 
 @Composable
 fun EpisodesScreen(
@@ -99,8 +107,16 @@ private fun EpisodesScreen(
             when {
                 // 1) First load: full-screen loader
                 isInitialLoading -> {
-                    Box(Modifier.fillMaxWidth().padding(top = dimensionResource(id = R.dimen.margin_normal))) {
-                        CircularProgressIndicator(modifier = Modifier.align(Alignment.TopCenter))
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = dimensionResource(id = R.dimen.margin_normal))
+                    ) {
+                        CircularProgressIndicator(
+                            Modifier
+                                .align(Alignment.TopCenter)
+                                .testTag(TestTags.INITIAL_LOADER)
+                        )
                     }
                 }
 
@@ -115,7 +131,8 @@ private fun EpisodesScreen(
                         Text(
                             text = stringResource(id = R.string.error_loading_more),
                             style = MaterialTheme.typography.bodyMedium,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.testTag(TestTags.ERROR_EMPTY)
                         )
                         Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_small)))
                         Button(onClick = { pagedEpisodesItem.retry() }) {
@@ -128,7 +145,8 @@ private fun EpisodesScreen(
                 else -> {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(1),
-                        contentPadding = PaddingValues(all = dimensionResource(id = R.dimen.card_side_margin))
+                        contentPadding = PaddingValues(all = dimensionResource(id = R.dimen.card_side_margin)),
+                        modifier = Modifier.testTag(TestTags.EPISODES_LIST)
                     ) {
                         items(
                             count = pagedEpisodesItem.itemCount,
@@ -141,7 +159,7 @@ private fun EpisodesScreen(
                         // Append loading footer
                         if (pagedEpisodesItem.loadState.append is LoadState.Loading) {
                             item(span = { GridItemSpan(maxLineSpan) }) {
-                                FooterBox { CircularProgressIndicator() }
+                                FooterBox { CircularProgressIndicator(Modifier.testTag(TestTags.APPEND_LOADER)) }
                             }
                         }
 
