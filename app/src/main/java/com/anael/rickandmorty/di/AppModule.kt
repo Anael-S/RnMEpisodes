@@ -6,7 +6,7 @@ import com.anael.rickandmorty.data.local.AppDatabase
 import com.anael.rickandmorty.data.local.EpisodeDao
 import com.anael.rickandmorty.data.local.EpisodeRemoteKeyDao
 import com.anael.rickandmorty.data.paging.EpisodesRemoteMediatorFactory
-import com.anael.rickandmorty.data.remote.EpisodesRemoteDataSource
+import com.anael.rickandmorty.data.remote.RnMApiRemoteDataSource
 import com.anael.rickandmorty.data.repository.EpisodesRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -32,6 +32,6 @@ object AppModule {
     fun provideRepository(
         db: AppDatabase,
         mediatorFactory: EpisodesRemoteMediatorFactory,
-        remote: EpisodesRemoteDataSource
+        remote: RnMApiRemoteDataSource
     ): EpisodesRepositoryImpl = EpisodesRepositoryImpl(db, mediatorFactory, remote)
 }

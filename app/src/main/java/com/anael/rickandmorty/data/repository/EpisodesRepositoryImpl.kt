@@ -10,7 +10,7 @@ import com.anael.rickandmorty.data.local.AppDatabase
 import com.anael.rickandmorty.data.local.LastRefreshEntity
 import com.anael.rickandmorty.data.mapper.toDomain
 import com.anael.rickandmorty.data.paging.EpisodesRemoteMediatorFactory
-import com.anael.rickandmorty.data.remote.EpisodesRemoteDataSource
+import com.anael.rickandmorty.data.remote.RnMApiRemoteDataSource
 import com.anael.rickandmorty.data.utils.safeCall
 import com.anael.rickandmorty.domain.model.Episode
 import com.anael.rickandmorty.domain.repository.EpisodesRepository
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class EpisodesRepositoryImpl @Inject constructor(
     private val db: AppDatabase,
     private val mediatorFactory: EpisodesRemoteMediatorFactory,
-    private val remote: EpisodesRemoteDataSource
+    private val remote: RnMApiRemoteDataSource
 ) : EpisodesRepository {
 
     override val lastRefreshFlow: Flow<Long?> = db.lastRefreshDao().getTimestampFlow()

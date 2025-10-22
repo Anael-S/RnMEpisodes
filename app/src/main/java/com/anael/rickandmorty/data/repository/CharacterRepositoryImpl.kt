@@ -1,7 +1,7 @@
 package com.anael.rickandmorty.data.repository
 
 import com.anael.rickandmorty.data.mapper.toDomain
-import com.anael.rickandmorty.data.remote.EpisodesRemoteDataSource
+import com.anael.rickandmorty.data.remote.RnMApiRemoteDataSource
 import com.anael.rickandmorty.data.utils.safeCall
 import com.anael.rickandmorty.domain.model.CharacterRnM
 import com.anael.rickandmorty.domain.repository.CharacterRepository
@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Singleton
 class CharacterRepositoryImpl @Inject constructor(
-    private val remote: EpisodesRemoteDataSource,
+    private val remote: RnMApiRemoteDataSource,
 ) : CharacterRepository {
 
     override suspend fun getCharacter(id: String): Result<CharacterRnM> =

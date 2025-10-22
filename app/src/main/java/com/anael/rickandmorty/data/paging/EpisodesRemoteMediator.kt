@@ -10,14 +10,14 @@ import com.anael.rickandmorty.data.local.EpisodeEntity
 import com.anael.rickandmorty.data.local.EpisodeRemoteKey
 import com.anael.rickandmorty.data.local.LastRefreshEntity
 import com.anael.rickandmorty.data.mapper.toEntity
-import com.anael.rickandmorty.data.remote.EpisodesRemoteDataSource
+import com.anael.rickandmorty.data.remote.RnMApiRemoteDataSource
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
 class EpisodesRemoteMediator @Inject constructor(
-    private val remote: EpisodesRemoteDataSource,
+    private val remote: RnMApiRemoteDataSource,
     private val db: AppDatabase
 ) : RemoteMediator<Int, EpisodeEntity>() {
 

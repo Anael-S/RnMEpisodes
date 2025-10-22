@@ -2,9 +2,9 @@ package com.anael.rickandmorty.data.remote
 
 import javax.inject.Inject
 
-class RetrofitEpisodesRemoteDataSource @Inject constructor(
+class RetrofitRnMApiRemoteDataSource @Inject constructor(
     private val api: RnMApiService
-) : EpisodesRemoteDataSource {
+) : RnMApiRemoteDataSource {
 
     override suspend fun getEpisodesPage(page: Int) = api.getEpisodesPage(page)
     override suspend fun getEpisodeById(id: String) = api.getEpisodeById(id)
