@@ -7,13 +7,11 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.anael.rickandmorty.presentation.compose.Screen
 import com.anael.rickandmorty.presentation.compose.episodes.EpisodeDetailsScreen
 import com.anael.rickandmorty.presentation.compose.episodes.EpisodesScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.anael.rickandmorty.presentation.compose.Graph
 import com.anael.rickandmorty.presentation.viewmodel.EpisodeDetailsViewModel
 import com.anael.rickandmorty.presentation.viewmodel.EpisodesSharedViewModel
 import androidx.navigation.navigation

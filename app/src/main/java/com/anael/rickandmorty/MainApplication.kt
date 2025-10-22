@@ -2,7 +2,8 @@ package com.anael.rickandmorty
 
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
-import androidx.work.*
+import androidx.work.Configuration
+import androidx.work.WorkManager
 import com.anael.rickandmorty.infrastructure.work.EpisodesSyncScheduler
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject

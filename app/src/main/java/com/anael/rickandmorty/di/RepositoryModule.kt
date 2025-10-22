@@ -1,9 +1,9 @@
 package com.anael.rickandmorty.di
 
-import com.anael.rickandmorty.domain.repository.CharacterRepository
 import com.anael.rickandmorty.data.repository.CharacterRepositoryImpl
-import com.anael.rickandmorty.domain.repository.EpisodesRepository
 import com.anael.rickandmorty.data.repository.EpisodesRepositoryImpl
+import com.anael.rickandmorty.domain.repository.CharacterRepository
+import com.anael.rickandmorty.domain.repository.EpisodesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

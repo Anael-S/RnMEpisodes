@@ -3,7 +3,7 @@ package com.anael.rickandmorty.data.model
 import com.google.gson.annotations.SerializedName
 
 /**
- * Data class that represents an Episodes from EpisodesService.
+ * Data class that represents an Episode from EpisodesService.
  */
 data class EpisodeDto(
     @field:SerializedName("id") val id: Int,

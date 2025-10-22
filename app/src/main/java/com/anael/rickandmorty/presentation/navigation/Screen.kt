@@ -1,9 +1,4 @@
-package com.anael.rickandmorty.presentation.compose
-
-import android.net.Uri
-import androidx.navigation.NamedNavArgument
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
+package com.anael.rickandmorty.presentation.navigation
 
 object Graph {
     const val Episodes = "episodes_graph"

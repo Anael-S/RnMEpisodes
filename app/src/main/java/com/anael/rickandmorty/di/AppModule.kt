@@ -2,11 +2,11 @@ package com.anael.rickandmorty.di
 
 import android.content.Context
 import androidx.room.Room
-import com.anael.rickandmorty.data.remote.RnMApiService
-import com.anael.rickandmorty.data.repository.EpisodesRepositoryImpl
 import com.anael.rickandmorty.data.local.AppDatabase
 import com.anael.rickandmorty.data.local.EpisodeDao
 import com.anael.rickandmorty.data.local.EpisodeRemoteKeyDao
+import com.anael.rickandmorty.data.remote.RnMApiService
+import com.anael.rickandmorty.data.repository.EpisodesRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

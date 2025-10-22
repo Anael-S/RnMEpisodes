@@ -2,9 +2,9 @@ package com.anael.rickandmorty.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.anael.rickandmorty.domain.model.CharacterRnM              // CHANGE
-import com.anael.rickandmorty.domain.repository.CharacterRepository
 import com.anael.rickandmorty.data.utils.toNetworkError
+import com.anael.rickandmorty.domain.model.CharacterRnM
+import com.anael.rickandmorty.domain.repository.CharacterRepository
 import com.anael.rickandmorty.presentation.ui.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

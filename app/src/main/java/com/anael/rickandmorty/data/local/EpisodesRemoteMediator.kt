@@ -66,7 +66,6 @@ class EpisodesRemoteMediator(
                 if (loadType == LoadType.REFRESH) {
                     keysDao.clearRemoteKeys()
                     episodeDao.clearAll() //We reload ALL episodes from the list if a refresh has been asked
-                    //To make it smoother, we initLoad at 60 to reload everything right away
                 }
 
                 episodeDao.upsertAll(entities)

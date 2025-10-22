@@ -35,9 +35,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.anael.rickandmorty.R
+import com.anael.rickandmorty.domain.model.CharacterRnM
 import com.anael.rickandmorty.presentation.compose.utils.ErrorState
 import com.anael.rickandmorty.presentation.compose.utils.rememberErrorStrings
-import com.anael.rickandmorty.domain.model.CharacterRnM
 import com.anael.rickandmorty.presentation.ui.state.UiState
 import com.anael.rickandmorty.presentation.viewmodel.EpisodeDetailsViewModel
 
