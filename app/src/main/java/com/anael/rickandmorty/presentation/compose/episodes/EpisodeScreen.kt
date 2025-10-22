@@ -33,22 +33,15 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.anael.rickandmorty.R
-import com.anael.rickandmorty.presentation.compose.utils.rememberFormatDateTime
-import com.anael.rickandmorty.data.model.EpisodeDto
 import com.anael.rickandmorty.domain.model.Episode
+import com.anael.rickandmorty.presentation.compose.utils.rememberFormatDateTime
 import com.anael.rickandmorty.presentation.viewmodel.EpisodesViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun EpisodesScreen(
@@ -85,8 +78,6 @@ private fun EpisodesScreen(
         val pullToRefreshState = rememberPullToRefreshState()
         if (pullToRefreshState.isRefreshing) pagedEpisodesItem.refresh()
 
-
-
         LaunchedEffect(pagedEpisodesItem.loadState) {
             when (pagedEpisodesItem.loadState.refresh) {
                 is LoadState.Loading -> Unit
@@ -94,72 +85,106 @@ private fun EpisodesScreen(
             }
         }
 
+        val isInitialLoading =
+            pagedEpisodesItem.loadState.refresh is LoadState.Loading &&
+                    pagedEpisodesItem.itemCount == 0
+
+        val refreshError = pagedEpisodesItem.loadState.refresh as? LoadState.Error
+
         Box(
             modifier = Modifier
                 .padding(padding)
                 .nestedScroll(pullToRefreshState.nestedScrollConnection)
         ) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(1),
-                contentPadding = PaddingValues(all = dimensionResource(id = R.dimen.card_side_margin))
-            ) {
-                // Content items
-                items(
-                    count = pagedEpisodesItem.itemCount,
-                    key = pagedEpisodesItem.itemKey { it.id }
-                ) { index ->
-                    val episode = pagedEpisodesItem[index] ?: return@items
-                    EpisodeListItem(episode = episode) { onEpisodeClick(episode) }
+            when {
+                // 1) First load: full-screen loader
+                isInitialLoading -> {
+                    Box(Modifier.fillMaxWidth().padding(top = dimensionResource(id = R.dimen.margin_normal))) {
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.TopCenter))
+                    }
                 }
 
-                // === FOOTER(s) ===
-                // 1) Append loading
-                if (pagedEpisodesItem.loadState.append is LoadState.Loading) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        FooterBox {
-                            CircularProgressIndicator()
+                // 2) First load failed: full-screen error + retry
+                refreshError != null && pagedEpisodesItem.itemCount == 0 -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(dimensionResource(id = R.dimen.card_side_margin)),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.error_loading_more),
+                            style = MaterialTheme.typography.bodyMedium,
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_small)))
+                        Button(onClick = { pagedEpisodesItem.retry() }) {
+                            Text(stringResource(id = R.string.retry))
                         }
                     }
                 }
 
-                // 2) Append error with retry
-                val appendError = pagedEpisodesItem.loadState.append as? LoadState.Error
-                if (appendError != null) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        FooterBox {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(
-                                    text = stringResource(id = R.string.error_loading_more),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                                Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_small)))
-                                Button(onClick = { pagedEpisodesItem.retry() }) {
-                                    Text(stringResource(id = R.string.retry))
+                // 3) Normal content + footers
+                else -> {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(1),
+                        contentPadding = PaddingValues(all = dimensionResource(id = R.dimen.card_side_margin))
+                    ) {
+                        items(
+                            count = pagedEpisodesItem.itemCount,
+                            key = pagedEpisodesItem.itemKey { it.id }
+                        ) { index ->
+                            val episode = pagedEpisodesItem[index] ?: return@items
+                            EpisodeListItem(episode = episode) { onEpisodeClick(episode) }
+                        }
+
+                        // Append loading footer
+                        if (pagedEpisodesItem.loadState.append is LoadState.Loading) {
+                            item(span = { GridItemSpan(maxLineSpan) }) {
+                                FooterBox { CircularProgressIndicator() }
+                            }
+                        }
+
+                        // Append error footer
+                        val appendError = pagedEpisodesItem.loadState.append as? LoadState.Error
+                        if (appendError != null) {
+                            item(span = { GridItemSpan(maxLineSpan) }) {
+                                FooterBox {
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Text(
+                                            text = stringResource(id = R.string.error_loading_more),
+                                            style = MaterialTheme.typography.bodyMedium
+                                        )
+                                        Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_small)))
+                                        Button(onClick = { pagedEpisodesItem.retry() }) {
+                                            Text(stringResource(id = R.string.retry))
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
-                }
 
-                // 3) End of pagination reached
-                val reachedEnd =
-                    pagedEpisodesItem.loadState.append.endOfPaginationReached &&
-                            pagedEpisodesItem.itemCount > 0 &&
-                            pagedEpisodesItem.loadState.refresh is LoadState.NotLoading
+                        // End of pagination footer
+                        val reachedEnd =
+                            pagedEpisodesItem.loadState.append.endOfPaginationReached &&
+                                    pagedEpisodesItem.itemCount > 0 &&
+                                    pagedEpisodesItem.loadState.refresh is LoadState.NotLoading
 
-                if (reachedEnd) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        FooterBox(
-                            modifier = Modifier.padding(
-                                top = dimensionResource(id = R.dimen.margin_extra_small),
-                                bottom = dimensionResource(id = R.dimen.margin_extra_small)
-                            )
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.nothing_more_to_load),
-                                style = MaterialTheme.typography.bodyMedium,
-                                textAlign = TextAlign.Center
-                            )
+                        if (reachedEnd) {
+                            item(span = { GridItemSpan(maxLineSpan) }) {
+                                FooterBox(
+                                    modifier = Modifier.padding(
+                                        top = dimensionResource(id = R.dimen.margin_extra_small),
+                                        bottom = dimensionResource(id = R.dimen.margin_extra_small)
+                                    )
+                                ) {
+                                    Text(
+                                        text = stringResource(id = R.string.nothing_more_to_load),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
                         }
                     }
                 }
@@ -172,6 +197,7 @@ private fun EpisodesScreen(
         }
     }
 }
+
 
 @Composable
 private fun FooterBox(
