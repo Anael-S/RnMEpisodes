@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.anael.rickandmorty.data.local.AppDatabase
 import com.anael.rickandmorty.data.local.EpisodeDao
 import com.anael.rickandmorty.data.local.EpisodeRemoteKeyDao
+import com.anael.rickandmorty.data.paging.EpisodesRemoteMediatorFactory
 import com.anael.rickandmorty.data.remote.RnMApiService
 import com.anael.rickandmorty.data.repository.EpisodesRepositoryImpl
 import dagger.Module
@@ -33,8 +34,17 @@ object AppModule {
     @Provides @Singleton
     fun provideRepository(
         service: RnMApiService,
+        db: AppDatabase,
+        mediatorFactory: EpisodesRemoteMediatorFactory
+    ): EpisodesRepositoryImpl = EpisodesRepositoryImpl(db, mediatorFactory, service)
+
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object EpisodesModule {
+    @Provides fun provideMediatorFactory(
+        service: RnMApiService,
         db: AppDatabase
-    ): EpisodesRepositoryImpl = EpisodesRepositoryImpl(service, db)
-
-
+    ) = EpisodesRemoteMediatorFactory(service, db)
 }

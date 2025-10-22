@@ -14,8 +14,7 @@ import javax.inject.Inject
 class EpisodesViewModel @Inject constructor(
     repository: EpisodesRepositoryImpl
 ) : ViewModel() {
-    val episodes = repository.getEpisodesStream()
-        .cachedIn(viewModelScope)
+    val episodes = repository.getEpisodesStream().cachedIn(viewModelScope)
     val lastRefreshTime: StateFlow<Long?> =
         repository.lastRefreshFlow.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
