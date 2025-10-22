@@ -10,7 +10,7 @@ import com.anael.rickandmorty.data.local.AppDatabase
 import com.anael.rickandmorty.data.local.LastRefreshEntity
 import com.anael.rickandmorty.data.mapper.toDomain
 import com.anael.rickandmorty.data.paging.EpisodesRemoteMediatorFactory
-import com.anael.rickandmorty.data.remote.RnMApiService
+import com.anael.rickandmorty.data.remote.EpisodesRemoteDataSource
 import com.anael.rickandmorty.data.utils.safeCall
 import com.anael.rickandmorty.domain.model.Episode
 import com.anael.rickandmorty.domain.repository.EpisodesRepository
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class EpisodesRepositoryImpl @Inject constructor(
     private val db: AppDatabase,
     private val mediatorFactory: EpisodesRemoteMediatorFactory,
-    private val service: RnMApiService
+    private val remote: EpisodesRemoteDataSource
 ) : EpisodesRepository {
 
     override val lastRefreshFlow: Flow<Long?> = db.lastRefreshDao().getTimestampFlow()
@@ -41,7 +41,7 @@ class EpisodesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getEpisodeDetail(episodeId: String): Result<Episode> =
-        safeCall { service.getEpisodeById(episodeId) }.map { it.toDomain() }
+        safeCall { remote.getEpisodeById(episodeId) }.map { it.toDomain() }
 
     override suspend fun syncEpisodes(): Result<Unit> = runCatching {
         // If this was to invalidate the PagingSource, prefer calling refresh() from UI.

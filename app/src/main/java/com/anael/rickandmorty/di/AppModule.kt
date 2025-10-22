@@ -6,7 +6,7 @@ import com.anael.rickandmorty.data.local.AppDatabase
 import com.anael.rickandmorty.data.local.EpisodeDao
 import com.anael.rickandmorty.data.local.EpisodeRemoteKeyDao
 import com.anael.rickandmorty.data.paging.EpisodesRemoteMediatorFactory
-import com.anael.rickandmorty.data.remote.RnMApiService
+import com.anael.rickandmorty.data.remote.EpisodesRemoteDataSource
 import com.anael.rickandmorty.data.repository.EpisodesRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -22,29 +22,16 @@ object AppModule {
     @Provides @Singleton
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
         Room.databaseBuilder(context, AppDatabase::class.java, "episodes.db")
-            .fallbackToDestructiveMigration() // Wipe everything if it changes, easier here
+            .fallbackToDestructiveMigration()
             .build()
 
     @Provides fun provideEpisodeDao(db: AppDatabase): EpisodeDao = db.episodeDao()
     @Provides fun provideEpisodeRemoteKeyDao(db: AppDatabase): EpisodeRemoteKeyDao = db.episodeRemoteKeyDao()
 
     @Provides @Singleton
-    fun provideEpisodesService(): RnMApiService = RnMApiService.create()
-
-    @Provides @Singleton
     fun provideRepository(
-        service: RnMApiService,
         db: AppDatabase,
-        mediatorFactory: EpisodesRemoteMediatorFactory
-    ): EpisodesRepositoryImpl = EpisodesRepositoryImpl(db, mediatorFactory, service)
-
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-object EpisodesModule {
-    @Provides fun provideMediatorFactory(
-        service: RnMApiService,
-        db: AppDatabase
-    ) = EpisodesRemoteMediatorFactory(service, db)
+        mediatorFactory: EpisodesRemoteMediatorFactory,
+        remote: EpisodesRemoteDataSource
+    ): EpisodesRepositoryImpl = EpisodesRepositoryImpl(db, mediatorFactory, remote)
 }
