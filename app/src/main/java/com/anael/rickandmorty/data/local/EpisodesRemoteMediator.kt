@@ -89,12 +89,6 @@ class EpisodesRemoteMediator(
         }
     }
 
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, EpisodeEntity>): EpisodeRemoteKey? {
-        return state.pages.lastOrNull { it.data.isNotEmpty() }
-            ?.data?.lastOrNull()
-            ?.let { keysDao.remoteKeyById(it.id) }
-    }
-
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, EpisodeEntity>): EpisodeRemoteKey? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }
             ?.data?.firstOrNull()
