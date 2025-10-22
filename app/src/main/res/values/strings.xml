@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name" translatable="false">Rick and Morty</string>
+
+    <string name="episodes_title" translatable="false">Episodes</string>
+    <string name="error_loading_more">Error in loading</string>
+    <string name="retry">Retry</string>
+    <string name="nothing_more_to_load">Nothing more to load</string>
+    <string name="no_episodes_found">No episodes found</string>
+    <string name="never_updated">Never updated</string>
+    <string name="last_updated">Last updated: </string>
+    <string name="episode">Episode</string>
+    <string name="character">Character</string>
+    <string name="origin_format">Origin: %1$s</string>
+    <string name="appears_in_n_episodes">Appears in %1$d episodes</string>
+    <string name="export">Export</string>
+    <string name="export_success_snackbar">Export succeeded: %1$s!</string>
+    <string name="export_failure_snackbar">Export failed!</string>
+
+
+    <!--    Network Errors    -->
+    <string name="err_no_connection_title">You’re offline</string>
+    <string name="err_no_connection_desc">Check your connection and try again.</string>
+    <string name="err_timeout_title">Request timed out</string>
+    <string name="err_timeout_desc">The server took too long to respond.</string>
+    <string name="err_server_title">Server error (%1$d)</string>
+    <string name="err_server_desc">Please try again in a moment.</string>
+    <string name="err_unknown_title">Something went wrong</string>
+    <string name="err_unknown_desc">We’re not sure what happened. Try again.</string>
+
+</resources>
