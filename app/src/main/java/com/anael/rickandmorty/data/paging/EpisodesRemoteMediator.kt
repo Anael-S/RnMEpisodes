@@ -68,7 +68,7 @@ class EpisodesRemoteMediator @Inject constructor(
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     keysDao.clearRemoteKeys()
-                    episodeDao.clearAll()
+//                    episodeDao.clearAll()
                 }
 
                 episodeDao.upsertAll(entities)
