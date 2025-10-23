@@ -36,7 +36,7 @@
 
             <!-- Disable WorkManager's default initializer
             If I don't, on startup it will be auto-initialized before the workerFactory is wired in, so it falls back to the default factory
-            and then tries to reflect a (Context, WorkerParameters) constructor → NoSuchMethodException-->
+            and then tries to reflect a (Context, WorkerParameters) constructor triggers NoSuchMethodException-->
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.startup"
