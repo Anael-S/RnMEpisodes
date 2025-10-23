@@ -148,6 +148,8 @@ dependencies {
     testImplementation(libs.androidx.room.ktx)
     testImplementation(libs.mockk.agent)
     testImplementation(libs.robolectric)
+    testImplementation(libs.hilt.android.testing)
+    testImplementation(libs.androidx.work.testing)
 }
 
 protobuf {

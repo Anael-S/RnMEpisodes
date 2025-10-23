@@ -87,8 +87,7 @@ This document explains **how each functional requirement** is implemented in the
 - **Hilt bindings:** `di/NetworkModule.kt`, `di/RemoteDataSourceModule.kt`, `di/RepositoryModule.kt`, etc.
 
 ### 🧪 Tested by
-- *(No dedicated test yet.)*  
-  ✅ **Next step:** Add a Robolectric test using `TestListenableWorkerBuilder` to ensure `EpisodesRepositoryImpl.syncEpisodes()` is invoked.
+- **Worker:** `test/.../infrqstructure/work/EpisodesSyncWorkerTest.kt` — Robolectric test to ensure `EpisodesRepositoryImpl.syncEpisodes()` is invoked.
 
 ---
 
@@ -130,7 +129,7 @@ This document explains **how each functional requirement** is implemented in the
 
 ---
 
-## 11️⃣ Unit & UI Test Suite Overview
+## 1️⃣1️⃣ Unit & UI Test Suite Overview
 
 ### 🧪 Unit Tests
 | Category | Test Class | Purpose |
