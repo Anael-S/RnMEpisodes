@@ -19,7 +19,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "com.anael.rickandmorty.test.AppTestRunner"
+        testInstrumentationRunner = "com.anael.rickandmorty.HiltTestRunner"
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"

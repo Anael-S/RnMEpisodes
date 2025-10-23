@@ -9,6 +9,7 @@ import androidx.room.withTransaction
 import com.anael.rickandmorty.data.local.AppDatabase
 import com.anael.rickandmorty.data.local.LastRefreshEntity
 import com.anael.rickandmorty.data.mapper.toDomain
+import com.anael.rickandmorty.data.mapper.toEntity
 import com.anael.rickandmorty.data.paging.EpisodesRemoteMediatorFactory
 import com.anael.rickandmorty.data.remote.RnMApiRemoteDataSource
 import com.anael.rickandmorty.data.utils.safeCall
@@ -44,12 +45,47 @@ class EpisodesRepositoryImpl @Inject constructor(
         safeCall { remote.getEpisodeById(episodeId) }.map { it.toDomain() }
 
     override suspend fun syncEpisodes(): Result<Unit> = runCatching {
-        // If this was to invalidate the PagingSource, prefer calling refresh() from UI.
-        db.withTransaction {
-            db.episodeRemoteKeyDao().clearRemoteKeys()
-            db.episodeDao().clearAll()
+        var page = 1
+        var reachedEnd = false
+        val seenIds = mutableListOf<Int>()
+
+        while (!reachedEnd) {
+            val dto = remote.getEpisodesPage(page)
+            val items = dto.results
+            val entities = items.map { it.toEntity() }
+
+            db.withTransaction {
+                // 1) upsert rows
+                db.episodeDao().upsertAll(entities)
+
+                // 2) write keys for these rows
+                val prev = (page - 1).takeIf { it >= 1 }
+                val next = if (dto.info.next == null) null else page + 1
+                val keys = entities.map {
+                    com.anael.rickandmorty.data.local.EpisodeRemoteKey(
+                        episodeId = it.id,
+                        prevKey = prev,
+                        nextKey = next
+                    )
+                }
+                db.episodeRemoteKeyDao().upsertAll(keys)
+
+                // 3) mark last refresh on the first page
+                if (page == 1) {
+                    db.lastRefreshDao().upsert(
+                        LastRefreshEntity(
+                            timestamp = System.currentTimeMillis()
+                        )
+                    )
+                }
+            }
+
+            seenIds += entities.map { it.id }
+            reachedEnd = dto.info.next == null
+            page++
         }
     }
+
 
     override suspend fun markLastRefreshNow() {
         db.lastRefreshDao().upsert(LastRefreshEntity(timestamp = System.currentTimeMillis()))

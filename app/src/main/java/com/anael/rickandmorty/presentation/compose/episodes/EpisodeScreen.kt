@@ -84,14 +84,23 @@ private fun EpisodesScreen(
         },
     ) { padding ->
         val pullToRefreshState = rememberPullToRefreshState()
-        if (pullToRefreshState.isRefreshing) pagedEpisodesItem.refresh()
 
-        LaunchedEffect(pagedEpisodesItem.loadState) {
-            when (pagedEpisodesItem.loadState.refresh) {
-                is LoadState.Loading -> Unit
-                is LoadState.Error, is LoadState.NotLoading -> pullToRefreshState.endRefresh()
+// 1) Trigger refresh only when the flag changes to true
+        val isRefreshing = pullToRefreshState.isRefreshing
+        LaunchedEffect(isRefreshing) {
+            if (isRefreshing) {
+                pagedEpisodesItem.refresh()
             }
         }
+
+// 2) End the refresh when Paging finishes (success or error)
+        LaunchedEffect(pagedEpisodesItem.loadState.refresh) {
+            when (pagedEpisodesItem.loadState.refresh) {
+                is LoadState.Loading -> Unit
+                is LoadState.NotLoading, is LoadState.Error -> pullToRefreshState.endRefresh()
+            }
+        }
+
 
         val isInitialLoading =
             pagedEpisodesItem.loadState.refresh is LoadState.Loading &&
@@ -135,7 +144,7 @@ private fun EpisodesScreen(
                             modifier = Modifier.testTag(TestTags.ERROR_EMPTY)
                         )
                         Spacer(Modifier.height(dimensionResource(id = R.dimen.margin_small)))
-                        Button(onClick = { pagedEpisodesItem.retry() }) {
+                        Button(onClick = { pagedEpisodesItem.refresh() }) {
                             Text(stringResource(id = R.string.retry))
                         }
                     }
