@@ -17,7 +17,6 @@ class MainApplication : Application(), Configuration.Provider {
   override fun onCreate() {
     super.onCreate()
 
-    // 1) Initialize WorkManager explicitly with Hilt’s factory
     val wmConfig = Configuration.Builder()
       .setWorkerFactory(workerFactory)
       .setMinimumLoggingLevel(
@@ -26,7 +25,6 @@ class MainApplication : Application(), Configuration.Provider {
       .build()
     WorkManager.initialize(this, wmConfig)
 
-    // 2) Schedule your periodic sync (now guaranteed to use HiltWorkerFactory)
     episodesSyncScheduler.schedule(this)
   }
 

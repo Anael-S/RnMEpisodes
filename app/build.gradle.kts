@@ -95,6 +95,7 @@ dependencies {
     implementation(libs.androidx.datastore.core.android)
     implementation(libs.room.paging)
     implementation(libs.coil.compose)
+    implementation(libs.kotlinx.collections.immutable)
     kapt(libs.hilt.android.compiler)
     kapt(libs.hilt.compiler)
 
@@ -146,6 +147,7 @@ dependencies {
     testImplementation(libs.androidx.paging)
     testImplementation(libs.androidx.room.ktx)
     testImplementation(libs.mockk.agent)
+    testImplementation(libs.robolectric)
 }
 
 protobuf {

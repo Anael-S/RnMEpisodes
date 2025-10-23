@@ -31,13 +31,12 @@ to display characters and episodes using offline caching and pagination.
 Each layer depends only on the layer below it and communicates via interfaces, ensuring testability and maintainability.
 
 # 🧱 Tech Stack
-- Layer	Technology
-- UI / Presentation	Jetpack Compose (or XML), ViewModel, LiveData / Flow
-- Domain	Kotlin coroutines, UseCases, Repository interfaces
-- Data	Room (offline caching), Retrofit (network), Paging 3 (infinite scrolling)
-- DI	Hilt
-- Networking	OkHttp, Retrofit, Gson
-- Other	Coroutines, Flow, Result wrappers, SafeCall utilities
+- UI / Presentation	-> Jetpack Compose (or XML), ViewModel, LiveData / Flow
+- Domain ->	Kotlin coroutines, UseCases, Repository interfaces
+- Data -> Room (offline caching), Retrofit (network), Paging 3 (infinite scrolling)
+- DI ->	Hilt
+- Networking -> OkHttp, Retrofit, Gson
+- Other	-> Coroutines, Flow, Result wrappers, SafeCall utilities
 
 
 # 🧠 Key Components

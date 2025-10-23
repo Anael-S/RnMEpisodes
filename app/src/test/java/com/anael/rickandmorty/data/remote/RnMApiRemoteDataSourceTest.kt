@@ -60,7 +60,6 @@ class RnMApiRemoteDataSourceTest {
     fun `getEpisodesPage returns and parses page 1`() = runTest {
         val dto = dataSource.getEpisodesPage(page = 1)
 
-        // Basic sanity checks (adapt field names to your DTOs)
         assertThat(dto.info.pages).isGreaterThan(0)
         assertThat(dto.results).hasSize(2)
         assertThat(dto.results.first().id).isEqualTo(1)

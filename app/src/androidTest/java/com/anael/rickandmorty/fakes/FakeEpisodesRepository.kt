@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 import androidx.paging.PagingSource
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 
 
 @Singleton
@@ -127,6 +129,6 @@ fun demoEpisodes(count: Int): List<Episode> =
       name = "Episode $it",
       airDate = "2017-01-$it",
       episodeCode = "S01E${String.format("%02d", it)}",
-      characters = emptyList(),
+      characters = persistentListOf() ,
     )
   }

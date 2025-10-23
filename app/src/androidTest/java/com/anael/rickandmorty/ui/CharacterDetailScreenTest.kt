@@ -17,6 +17,7 @@ import com.anael.rickandmorty.domain.model.Origin
 import com.anael.rickandmorty.presentation.compose.characters.CharacterDetailScaffold
 import com.anael.rickandmorty.presentation.compose.characters.CharacterTestTags
 import com.anael.rickandmorty.presentation.ui.state.UiState
+import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,7 +35,7 @@ class CharacterDetailScreenTest {
         status = "Alive",
         image = "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
         origin = Origin(name = "Earth (C-137)", url = ""),
-        episode = listOf("1", "2", "3")
+        episode = persistentListOf("1", "2", "3")
     )
 
     private fun getString(resId: Int, vararg args: Any) =
@@ -71,7 +72,7 @@ class CharacterDetailScreenTest {
         // Error container visible
         composeRule.onNodeWithTag(CharacterTestTags.ERROR).assertIsDisplayed()
 
-        // Tap "Retry" (from your ErrorState composable)
+        // Tap "Retry"
         composeRule.onNodeWithText(getString(R.string.retry)).performClick()
         assert(retried)
     }

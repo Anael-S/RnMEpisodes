@@ -17,6 +17,7 @@ import com.anael.rickandmorty.domain.model.Origin
 import com.anael.rickandmorty.presentation.compose.episodes.DetailsTestTags
 import com.anael.rickandmorty.presentation.compose.episodes.EpisodeDetailsScreen
 import com.anael.rickandmorty.presentation.ui.state.UiState
+import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,11 +31,11 @@ class EpisodeDetailsScreenTest {
     private fun sampleCharacters() = listOf(
         CharacterRnM(
             id = 1, name = "Rick Sanchez", species = "Human", image = "",
-            status = "", origin = Origin(name = "Earth", url = ""), episode = listOf("1", "2")
+            status = "", origin = Origin(name = "Earth", url = ""), episode = persistentListOf("1", "2")
         ),
         CharacterRnM(
             id = 2, name = "Morty Smith", species = "Human", image = "",
-            status = "", origin = Origin(name = "Earth", url = ""), episode = listOf("1", "2")
+            status = "", origin = Origin(name = "Earth", url = ""), episode = persistentListOf("1", "2")
         ),
     )
 

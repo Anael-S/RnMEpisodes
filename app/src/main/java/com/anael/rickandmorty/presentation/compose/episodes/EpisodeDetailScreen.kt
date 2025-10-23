@@ -174,7 +174,7 @@ private fun DetailScreen(
         items(characters, key = { it.id }) { ch ->
             ListItem(
                 headlineContent = { Text(ch.name) },
-                supportingContent = { Text(ch.species) },
+                supportingContent = { Text(ch.id.toString()) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { onCharacterClick(ch.id.toString()) }

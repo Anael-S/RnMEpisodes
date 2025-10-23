@@ -3,6 +3,7 @@ package com.anael.rickandmorty.data.mapper
 import com.anael.rickandmorty.data.local.EpisodeEntity
 import com.anael.rickandmorty.data.model.EpisodeDto
 import com.anael.rickandmorty.domain.model.Episode
+import kotlinx.collections.immutable.toImmutableList
 
 // DTO -> Entity
 fun EpisodeDto.toEntity() = EpisodeEntity(
@@ -32,7 +33,7 @@ fun EpisodeDto.toDomain() = Episode(
     name = name,
     airDate = airDate,
     episodeCode = episode,
-    characters = characters
+    characters = characters.toImmutableList()
 )
 
 // Entity -> Domain
@@ -41,5 +42,5 @@ fun EpisodeEntity.toDomain() = Episode(
     name = name,
     airDate = airDate,
     episodeCode = episodeCode,
-    characters = characters
+    characters = characters.toImmutableList()
 )
