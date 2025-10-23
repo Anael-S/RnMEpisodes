@@ -1,6 +1,5 @@
 package com.anael.rickandmorty.presentation.compose.episodes
 
-
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,7 +41,14 @@ import com.anael.rickandmorty.presentation.compose.utils.rememberErrorStrings
 import com.anael.rickandmorty.presentation.ui.state.UiState
 import com.anael.rickandmorty.presentation.viewmodel.EpisodeDetailsViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+object DetailsTestTags {
+    const val LOADER = "details_loader"
+    const val LIST = "details_list"
+    const val ERROR = "details_error"
+    const val APP_BAR_TITLE = "details_app_bar_title"
+    const val HEADER_CODE   = "details_header_code"
+}
+
 @Composable
 fun EpisodeDetailsScreen(
     onBackClick: () -> Unit,
@@ -50,8 +57,27 @@ fun EpisodeDetailsScreen(
     episodeName: String,
     episodeCode: String
 ) {
-    // Characters loading state
     val state by viewModel.state.collectAsState()
+    EpisodeDetailsScreen(
+        onBackClick = onBackClick,
+        onCharacterClick = onCharacterClick,
+        state = state,
+        onRetry = { viewModel.reload() },
+        episodeName = episodeName,
+        episodeCode = episodeCode
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EpisodeDetailsScreen(
+    onBackClick: () -> Unit,
+    onCharacterClick: (String) -> Unit,
+    state: UiState<List<CharacterRnM>>,
+    onRetry: () -> Unit,
+    episodeName: String,
+    episodeCode: String
+) {
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
@@ -62,10 +88,11 @@ fun EpisodeDetailsScreen(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
-                            null
+                            contentDescription = stringResource(R.string.back)
                         )
                     }
-                }
+                },
+                modifier = Modifier.testTag(DetailsTestTags.APP_BAR_TITLE)
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) }
@@ -75,41 +102,38 @@ fun EpisodeDetailsScreen(
                 .padding(padding)
                 .fillMaxSize()
         ) {
-            when (val s = state) {
+            when (state) {
                 UiState.Loading -> {
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
+                        CircularProgressIndicator(Modifier.testTag(DetailsTestTags.LOADER))
                     }
                 }
-
                 is UiState.Error -> {
-                    val (title, desc) = rememberErrorStrings(s.cause)
+                    val (title, desc) = rememberErrorStrings(state.cause)
                     ErrorState(
                         title = title,
                         description = desc,
-                        onRetry = { viewModel.reload() },
-                        modifier = Modifier.align(Alignment.Center)
+                        onRetry = onRetry,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .testTag(DetailsTestTags.ERROR)
                     )
                 }
-
                 is UiState.Success -> {
                     DetailScreen(
                         episodeName = episodeName,
                         episodeCode = episodeCode,
-                        characters = s.data,
+                        characters = state.data,
                         onCharacterClick = onCharacterClick
                     )
                 }
-
                 UiState.Idle -> Unit
             }
         }
     }
 }
 
-/**
- * Header with episode title + code, "Characters:" label, then list of characters.
- */
+/** Header with episode title + code, "Characters:" label, then list of characters. */
 @Composable
 private fun DetailScreen(
     episodeName: String,
@@ -118,7 +142,9 @@ private fun DetailScreen(
     onCharacterClick: (String) -> Unit
 ) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag(DetailsTestTags.LIST),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
     ) {
         // Header
@@ -130,9 +156,10 @@ private fun DetailScreen(
             Spacer(Modifier.height(4.dp))
             if (episodeCode.isNotBlank()) {
                 Text(
-                    text = episodeCode, // e.g., "S01E01"
+                    text = episodeCode,
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.testTag(DetailsTestTags.HEADER_CODE),
                 )
                 Spacer(Modifier.height(12.dp))
             }
@@ -147,11 +174,7 @@ private fun DetailScreen(
         items(characters, key = { it.id }) { ch ->
             ListItem(
                 headlineContent = { Text(ch.name) },
-                supportingContent = { Text(ch.species) }, // "race" from API is `species`
-                leadingContent = {
-                    // If you use Coil:
-                    // AsyncImage(model = ch.image, contentDescription = null, modifier = Modifier.size(40.dp))
-                },
+                supportingContent = { Text(ch.species) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { onCharacterClick(ch.id.toString()) }

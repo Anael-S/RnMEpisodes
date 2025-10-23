@@ -116,6 +116,7 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.glide)
     implementation(libs.accompanist.systemuicontroller)
+    implementation(libs.androidx.paging.runtime)
     debugImplementation(libs.androidx.compose.ui.tooling)
     kaptAndroidTest(libs.hilt.android.compiler)
 
@@ -136,7 +137,15 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(libs.androidx.test.core.ktx)
+    testImplementation(libs.androidx.test.core)
     testImplementation(libs.junit)
+    testImplementation(libs.okhttp.mockwebserver)
+    testImplementation(libs.google.truth)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.androidx.paging)
+    testImplementation(libs.androidx.room.ktx)
+    testImplementation(libs.mockk.agent)
 }
 
 protobuf {

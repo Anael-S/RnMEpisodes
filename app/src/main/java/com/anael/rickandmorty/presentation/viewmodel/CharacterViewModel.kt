@@ -28,8 +28,8 @@ class CharacterViewModel @Inject constructor(
 
     private val characterId: String = checkNotNull(savedStateHandle["characterId"])
 
-    private val _state = MutableStateFlow<UiState<CharacterRnM>>(UiState.Idle)   // CHANGE
-    val state: StateFlow<UiState<CharacterRnM>> = _state.asStateFlow()           // CHANGE
+    private val _state = MutableStateFlow<UiState<CharacterRnM>>(UiState.Idle)
+    val state: StateFlow<UiState<CharacterRnM>> = _state.asStateFlow()
 
     init {
         loadCharacter()
@@ -47,9 +47,9 @@ class CharacterViewModel @Inject constructor(
     private val _events = MutableSharedFlow<CharacterUiEvent>(extraBufferCapacity = 1)
     val events: SharedFlow<CharacterUiEvent> = _events
 
-    fun onExportClicked() {
+    fun exportCharacterInFile() {
         val current = (state.value as? UiState.Success)?.data ?: return
-        val text = buildCharacterExportText(current) // ensure usecase expects domain Character
+        val text = buildCharacterExportText(current)
 
         val safeName = current.name.lowercase()
             .replace(Regex("[^a-z0-9]+"), "_")

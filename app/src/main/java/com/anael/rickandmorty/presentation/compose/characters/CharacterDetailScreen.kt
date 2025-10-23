@@ -3,40 +3,20 @@ package com.anael.rickandmorty.presentation.compose.characters
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Save
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -50,7 +30,16 @@ import com.anael.rickandmorty.presentation.compose.utils.rememberErrorStrings
 import com.anael.rickandmorty.presentation.ui.state.UiState
 import com.anael.rickandmorty.presentation.viewmodel.CharacterViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+object CharacterTestTags {
+    const val LOADER = "char_loader"
+    const val ERROR = "char_error"
+    const val CONTENT = "char_content"
+    const val TITLE = "char_title"
+    const val IMAGE = "char_image"
+    const val BACK_BTN = "char_back_btn"
+    const val EXPORT_BTN = "char_export_btn"
+}
+
 @Composable
 fun CharacterDetailScreen(
     onBackClick: () -> Unit,
@@ -100,20 +89,53 @@ fun CharacterDetailScreen(
         }
     }
 
+    CharacterDetailScaffold(
+        state = state,
+        onBackClick = onBackClick,
+        onRetry = { viewModel.loadCharacter() },
+        onExport = { viewModel.exportCharacterInFile() },
+        snackbarHostState = snackbarHostState
+    )
+}
+
+/**
+ * Stateless, pure-UI version used by tests.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CharacterDetailScaffold(
+    state: UiState<CharacterRnM>,
+    onBackClick: () -> Unit,
+    onRetry: () -> Unit,
+    onExport: () -> Unit,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+) {
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { CharacterDetailTopBarTitle(state) },
                 navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                    IconButton(
+                        onClick = onBackClick,
+                        modifier = Modifier.testTag(CharacterTestTags.BACK_BTN)
+                    ) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.back)
+                        )
                     }
                 },
                 actions = {
                     if (state is UiState.Success) {
-                        IconButton(onClick = { viewModel.onExportClicked() }) {
-                            Icon(Icons.Filled.Save, contentDescription = stringResource(R.string.export))
+                        IconButton(
+                            onClick = onExport,
+                            modifier = Modifier.testTag(CharacterTestTags.EXPORT_BTN)
+                        ) {
+                            Icon(
+                                Icons.Filled.Save,
+                                contentDescription = stringResource(R.string.export)
+                            )
                         }
                     }
                 }
@@ -127,7 +149,12 @@ fun CharacterDetailScreen(
         ) {
             when (val s = state) {
                 UiState.Loading -> {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .testTag(CharacterTestTags.LOADER),
+                        contentAlignment = Alignment.Center
+                    ) {
                         CircularProgressIndicator()
                     }
                 }
@@ -136,8 +163,10 @@ fun CharacterDetailScreen(
                     ErrorState(
                         title = title,
                         description = desc,
-                        onRetry = { viewModel.loadCharacter() },
-                        modifier = Modifier.align(Alignment.Center)
+                        onRetry = onRetry,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .testTag(CharacterTestTags.ERROR)
                     )
                 }
                 is UiState.Success<CharacterRnM> -> {
@@ -147,6 +176,7 @@ fun CharacterDetailScreen(
                             .fillMaxSize()
                             .verticalScroll(rememberScrollState())
                             .padding(horizontal = 16.dp, vertical = 12.dp)
+                            .testTag(CharacterTestTags.CONTENT)
                     )
                 }
                 UiState.Idle -> Unit
@@ -161,7 +191,7 @@ private fun CharacterDetailTopBarTitle(state: UiState<CharacterRnM>) {
         is UiState.Success -> state.data.name
         else -> stringResource(R.string.character)
     }
-    Text(title)
+    Text(title, modifier = Modifier.testTag(CharacterTestTags.TITLE))
 }
 
 @Composable
@@ -181,7 +211,8 @@ private fun CharacterDetailContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
-                .clip(MaterialTheme.shapes.extraLarge),
+                .clip(MaterialTheme.shapes.extraLarge)
+                .testTag(CharacterTestTags.IMAGE),
             contentScale = ContentScale.Crop
         )
 

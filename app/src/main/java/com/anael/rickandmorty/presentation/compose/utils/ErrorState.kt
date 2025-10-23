@@ -65,27 +65,24 @@ fun ErrorState(
 }
 
 @Composable
-fun rememberErrorStrings(cause: NetworkError): Pair<String, String?> {
-    val title: String
-    val description: String?
-    when (cause) {
-        NetworkError.NoConnection -> {
-            title = stringResource(R.string.err_no_connection_title)
-            description = stringResource(R.string.err_no_connection_desc)
-        }
-        NetworkError.Timeout -> {
-            title = stringResource(R.string.err_timeout_title)
-            description = stringResource(R.string.err_timeout_desc)
-        }
-        is NetworkError.Http -> {
-            title = stringResource(R.string.err_server_title, cause.code)
-            description = stringResource(R.string.err_server_desc)
-        }
-        NetworkError.Unknown -> {
-            title = stringResource(R.string.err_unknown_title)
-            description = stringResource(R.string.err_unknown_desc)
-        }
+fun rememberErrorStrings(cause: NetworkError): Pair<String, String> {
+    return when (cause) {
+        NetworkError.NoConnection ->
+            stringResource(R.string.err_no_connection_title) to
+                    stringResource(R.string.err_no_connection_desc)
+
+        NetworkError.Timeout ->
+            stringResource(R.string.err_timeout_title) to
+                    stringResource(R.string.err_timeout_desc)
+
+        is NetworkError.Http ->
+            stringResource(R.string.err_server_title, cause.code) to
+                    stringResource(R.string.err_server_desc)
+
+        is NetworkError.Unknown ->
+            stringResource(R.string.err_unknown_title) to
+                    stringResource(R.string.err_unknown_desc)
     }
-    return title to description
 }
+
 
