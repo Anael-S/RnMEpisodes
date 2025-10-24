@@ -9,6 +9,9 @@ import com.anael.rickandmorty.presentation.compose.EpisodesApp
 import com.anael.rickandmorty.presentation.ui.RickAndMortyTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Main activity/entry point, starting screen that display all episodes
+ */
 @AndroidEntryPoint
 class EpisodesActivity : ComponentActivity() {
 

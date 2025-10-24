@@ -4,6 +4,9 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
+/**
+ * Small helper to create list from simple string and vice versa
+ */
 class StringListConverter {
     @TypeConverter
     fun fromList(list: List<String>?): String {

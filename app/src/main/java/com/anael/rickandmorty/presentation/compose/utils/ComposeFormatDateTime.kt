@@ -4,6 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 
+/**
+ * Small Compose utils to format the date (use Context)
+ */
 @Composable
 fun rememberFormatDateTime(): (Long) -> String {
     val context = LocalContext.current

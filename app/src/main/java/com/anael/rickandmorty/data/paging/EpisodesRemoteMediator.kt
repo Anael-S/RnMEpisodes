@@ -15,6 +15,11 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
+/**
+ * Mediator used for the paginated episodes list
+ * The paging data is retrieved from the DB (AppDatabase)
+ * But updated here in the mediator (and a separate worker)
+ */
 @OptIn(ExperimentalPagingApi::class)
 class EpisodesRemoteMediator @Inject constructor(
     private val remote: RnMApiRemoteDataSource,
@@ -66,7 +71,7 @@ class EpisodesRemoteMediator @Inject constructor(
 
             // DB transaction
             db.withTransaction {
-                if (loadType == LoadType.REFRESH) {
+                if (loadType == LoadType.REFRESH) { //eg: pullDownRefresh
                     keysDao.clearRemoteKeys()
                     episodeDao.clearAll()
                 }

@@ -4,6 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 
+/**
+ * Model for episode to store them in the DB
+ */
 @Entity(tableName = "episodes")
 @TypeConverters(StringListConverter::class)
 data class EpisodeEntity(

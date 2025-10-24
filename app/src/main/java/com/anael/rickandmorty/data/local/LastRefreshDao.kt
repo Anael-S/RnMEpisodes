@@ -6,6 +6,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * DAO for last refresh timestamp to store it in the DB
+ */
 @Dao
 interface LastRefreshDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

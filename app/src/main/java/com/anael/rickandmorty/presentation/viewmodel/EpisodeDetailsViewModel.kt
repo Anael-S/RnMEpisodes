@@ -12,6 +12,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for our EpisodeDetails screen
+ */
 @HiltViewModel
 class EpisodeDetailsViewModel @Inject constructor(
     private val repo: CharacterRepository

@@ -4,6 +4,9 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
+/**
+ * Database used to store Episodes + last refresh timestamp
+ */
 @Database(
     entities = [EpisodeEntity::class, EpisodeRemoteKey::class, LastRefreshEntity::class],
     version = 1,

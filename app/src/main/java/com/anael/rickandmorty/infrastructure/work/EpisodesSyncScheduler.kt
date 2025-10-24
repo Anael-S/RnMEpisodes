@@ -11,6 +11,10 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Scheduler used to launch EpisodesSyncWorker
+ * Right now triggers every hour
+ */
 @Singleton
 class EpisodesSyncScheduler @Inject constructor() {
 

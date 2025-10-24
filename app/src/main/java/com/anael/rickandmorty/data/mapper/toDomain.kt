@@ -6,6 +6,9 @@ import com.anael.rickandmorty.domain.model.CharacterRnM
 import com.anael.rickandmorty.domain.model.Origin
 import kotlinx.collections.immutable.toImmutableList
 
+/**
+ * Mapper class for DTO
+ */
 // DTO -> Domain
 fun CharacterDto.toDomain() = CharacterRnM(
     id = id,

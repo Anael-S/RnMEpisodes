@@ -51,6 +51,9 @@ object TestTags {
     const val ERROR_EMPTY = "error_empty"
 }
 
+/**
+ * Compose UI to display the list of all episodes
+ */
 @Composable
 fun EpisodesScreen(
     viewModel: EpisodesViewModel = hiltViewModel(),

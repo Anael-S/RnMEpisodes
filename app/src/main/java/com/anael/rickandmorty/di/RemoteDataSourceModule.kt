@@ -8,6 +8,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * DI - Hilt needs this so whenever something needs a RnMApiRemoteDataSource,
+ * it provide an instance of RetrofitRnMApiRemoteDataSource instead
+ * Binding for our interface to impl
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RemoteDataSourceModule {

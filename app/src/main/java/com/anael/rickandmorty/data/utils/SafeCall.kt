@@ -6,6 +6,9 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
+/**
+ * Small helper to handle different exception when trying http calls
+ */
 suspend inline fun <T> safeCall(
     dispatcher: CoroutineDispatcher = Dispatchers.IO,
     crossinline block: suspend () -> T

@@ -7,6 +7,9 @@ import java.time.format.DateTimeParseException
 import java.time.temporal.ChronoField
 import java.util.Locale
 
+/**
+ * Small util for format date (Locale)
+ */
 object DateUtils {
     /**
      * Tries multiple common patterns from the API/sample:

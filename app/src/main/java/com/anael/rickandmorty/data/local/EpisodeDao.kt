@@ -6,6 +6,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
+/**
+ * DAO  for episode to store them in the DB
+ */
 @Dao
 interface EpisodeDao {
 
@@ -19,6 +22,7 @@ interface EpisodeDao {
     suspend fun clearAll()
 
     // --- Poke helpers (invalidate PagingSource without changing visible data -> avoid flickering) ---
+    //This is mainly used as a “poke” mechanism for invalidating the PagingSource without actually changing any visible data in the database.
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertNoop(noop: EpisodeEntity)
 

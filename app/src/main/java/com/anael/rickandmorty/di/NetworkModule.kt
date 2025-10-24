@@ -11,6 +11,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+/**
+ * DI - used for the API calls
+ * Okhttp + Retrofit
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {

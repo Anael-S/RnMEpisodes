@@ -3,6 +3,10 @@ package com.anael.rickandmorty.domain.model
 import androidx.compose.runtime.Immutable
 import kotlinx.collections.immutable.ImmutableList
 
+/**
+ * UI classes for character
+ * Immutable for Compose performance
+ */
 @Immutable
 data class CharacterRnM(
     val id: Int,

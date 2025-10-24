@@ -6,6 +6,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
+/**
+ * ViewModel to transfer data from our EpisodeScreen to our CharacterScreen
+ */
 @HiltViewModel
 class EpisodesSharedViewModel @Inject constructor() : ViewModel() {
 

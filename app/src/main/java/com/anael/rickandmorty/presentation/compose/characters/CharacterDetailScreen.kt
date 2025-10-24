@@ -40,6 +40,9 @@ object CharacterTestTags {
     const val EXPORT_BTN = "char_export_btn"
 }
 
+/**
+ * Compose UI to display the detail of a character
+ */
 @Composable
 fun CharacterDetailScreen(
     onBackClick: () -> Unit,

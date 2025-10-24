@@ -3,6 +3,9 @@ package com.anael.rickandmorty.domain.usecase
 import javax.inject.Inject
 import com.anael.rickandmorty.domain.model.CharacterRnM
 
+/**
+ * Used to create the text when exporting a character to a txt file
+ */
 class BuildCharacterExportText @Inject constructor() {
     operator fun invoke(ch: CharacterRnM): String = buildString {
         appendLine("Name: ${ch.name}")

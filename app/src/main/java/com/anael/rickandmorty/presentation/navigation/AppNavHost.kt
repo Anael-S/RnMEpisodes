@@ -17,6 +17,9 @@ import com.anael.rickandmorty.presentation.viewmodel.EpisodesSharedViewModel
 import androidx.navigation.navigation
 import com.anael.rickandmorty.presentation.compose.characters.CharacterDetailScreen
 
+/**
+ * Nav for our app
+ */
 @Composable
 fun AppNavHost(navController: NavHostController) {
     NavHost(

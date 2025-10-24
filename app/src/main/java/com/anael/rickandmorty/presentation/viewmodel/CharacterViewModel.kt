@@ -19,6 +19,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for our characters
+ */
 @HiltViewModel
 class CharacterViewModel @Inject constructor(
     private val repository: CharacterRepository,

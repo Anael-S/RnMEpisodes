@@ -19,6 +19,9 @@ import com.anael.rickandmorty.R
 import com.anael.rickandmorty.domain.model.Episode
 import com.anael.rickandmorty.presentation.utils.DateUtils.formatDateDdMmYyyy
 
+/**
+ * Compose UI to display a single episode (of our episode list)
+ */
 @Composable
 fun EpisodeListItem(
     episode: Episode,

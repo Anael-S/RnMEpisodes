@@ -21,6 +21,9 @@ import androidx.compose.ui.unit.dp
 import com.anael.rickandmorty.R
 import com.anael.rickandmorty.data.utils.NetworkError
 
+/**
+ * Compose UI to display errors
+ */
 @Composable
 fun ErrorState(
     title: String,

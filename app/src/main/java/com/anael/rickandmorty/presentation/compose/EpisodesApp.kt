@@ -6,6 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
 import com.anael.rickandmorty.presentation.navigation.AppNavHost
 
+/**
+ * App to start the nav
+ */
 @Composable
 fun EpisodesApp() {
     val navController = rememberNavController()

@@ -7,7 +7,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
 
-// RemoteKeys.kt — track pagination cursors for RemoteMediator
+/**
+ * RemoteKeys.kt — track pagination cursors for RemoteMediator
+ */
 @Entity(tableName = "episode_remote_keys")
 data class EpisodeRemoteKey(
     @PrimaryKey val episodeId: Int,

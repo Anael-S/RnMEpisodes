@@ -8,6 +8,10 @@ import com.anael.rickandmorty.domain.repository.CharacterRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Implementation of the CharacterRepository interface
+ * Used to serve the Character data to the VM
+ */
 @Singleton
 class CharacterRepositoryImpl @Inject constructor(
     private val remote: RnMApiRemoteDataSource,

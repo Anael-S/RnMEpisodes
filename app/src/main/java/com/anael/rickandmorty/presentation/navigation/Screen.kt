@@ -1,5 +1,8 @@
 package com.anael.rickandmorty.presentation.navigation
 
+/**
+ * Helper to create route for our nav
+ */
 object Graph {
     const val Episodes = "episodes_graph"
 }

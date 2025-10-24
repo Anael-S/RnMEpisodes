@@ -19,7 +19,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-
+/**
+ * Implementation of the EpisodesRepository interface
+ * Used to serve the Episodes data to the VM + the worker to update data in the BG
+ */
 @OptIn(ExperimentalPagingApi::class)
 class EpisodesRepositoryImpl @Inject constructor(
     private val db: AppDatabase,
@@ -44,6 +47,9 @@ class EpisodesRepositoryImpl @Inject constructor(
     override suspend fun getEpisodeDetail(episodeId: String): Result<Episode> =
         safeCall { remote.getEpisodeById(episodeId) }.map { it.toDomain() }
 
+    /**
+     * Sync episodes (fetched from the API) to the DB
+     */
     override suspend fun syncEpisodes(): Result<Unit> = runCatching {
         var page = 1
         var reachedEnd = false

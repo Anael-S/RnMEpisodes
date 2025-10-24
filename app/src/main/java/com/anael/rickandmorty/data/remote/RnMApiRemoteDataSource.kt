@@ -4,6 +4,9 @@ import com.anael.rickandmorty.data.model.CharacterDto
 import com.anael.rickandmorty.data.model.EpisodeDto
 import com.anael.rickandmorty.data.model.PagedEpisodesDto
 
+/**
+ * Interface for DataSource for the RnMApi
+ */
 interface RnMApiRemoteDataSource {
     suspend fun getEpisodesPage(page: Int): PagedEpisodesDto
     suspend fun getEpisodeById(id: String): EpisodeDto

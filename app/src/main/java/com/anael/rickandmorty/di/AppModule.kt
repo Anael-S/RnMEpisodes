@@ -12,6 +12,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * DI for Database (Episodes/last refresh timestamp)
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {

@@ -49,6 +49,9 @@ object DetailsTestTags {
     const val HEADER_CODE   = "details_header_code"
 }
 
+/**
+ * Compose UI to display the detail of an episode (character list)
+ */
 @Composable
 fun EpisodeDetailsScreen(
     onBackClick: () -> Unit,

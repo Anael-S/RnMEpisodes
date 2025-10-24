@@ -8,7 +8,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
- * Used to connect to the R&M API to fetch episodes and characters
+ * Service used to connect to the R&M API to fetch episodes and characters
  */
 interface RnMApiService {
 

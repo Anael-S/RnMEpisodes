@@ -10,6 +10,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * DI - Hilt needs this for our two Repository: Episodes and Character
+ * Binding for our interfaces to impls
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {

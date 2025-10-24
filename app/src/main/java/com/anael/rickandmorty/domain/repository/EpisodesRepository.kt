@@ -4,6 +4,9 @@ import androidx.paging.PagingData
 import com.anael.rickandmorty.domain.model.Episode
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Interface for Episode Repository
+ */
 interface EpisodesRepository {
     val lastRefreshFlow: Flow<Long?>
     fun getEpisodesStream(): Flow<PagingData<Episode>>

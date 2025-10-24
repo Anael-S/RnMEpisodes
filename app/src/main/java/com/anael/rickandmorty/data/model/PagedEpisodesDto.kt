@@ -3,7 +3,7 @@ package com.anael.rickandmorty.data.model
 import com.google.gson.annotations.SerializedName
 
 /**
- * Data class that represents an episodes search paginated response from EpisodesService.
+ * DTO class that represents an episodes search paginated response from RnMApiService.
  */
 data class PagedEpisodesDto(
     @field:SerializedName("info") val info: PageInfoDto,

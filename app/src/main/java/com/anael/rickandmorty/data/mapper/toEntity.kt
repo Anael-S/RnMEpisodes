@@ -5,6 +5,9 @@ import com.anael.rickandmorty.data.model.EpisodeDto
 import com.anael.rickandmorty.domain.model.Episode
 import kotlinx.collections.immutable.toImmutableList
 
+/**
+ * Mapper class for DTO / Entity / Domain
+ */
 // DTO -> Entity
 fun EpisodeDto.toEntity() = EpisodeEntity(
     id = id,

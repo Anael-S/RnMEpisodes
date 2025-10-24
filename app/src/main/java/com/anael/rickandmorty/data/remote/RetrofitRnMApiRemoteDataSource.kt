@@ -2,6 +2,9 @@ package com.anael.rickandmorty.data.remote
 
 import javax.inject.Inject
 
+/**
+ * DataSource for the RnMApi
+ */
 class RetrofitRnMApiRemoteDataSource @Inject constructor(
     private val api: RnMApiService
 ) : RnMApiRemoteDataSource {

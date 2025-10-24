@@ -1,6 +1,8 @@
 package com.anael.rickandmorty.data.utils
 
-
+/**
+ * Small helpers class to handle network error
+ */
 sealed class NetworkError(cause: Throwable? = null) : Throwable(cause) {
     object NoConnection : NetworkError()
     object Timeout : NetworkError()

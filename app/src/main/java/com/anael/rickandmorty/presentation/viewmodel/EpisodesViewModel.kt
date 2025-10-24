@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
+/**
+ * ViewModel for our Episodes
+ */
 @HiltViewModel
 class EpisodesViewModel @Inject constructor(
     repository: EpisodesRepository

@@ -48,7 +48,7 @@ This document explains **how each functional requirement** is implemented in the
 - `presentation/compose/episodes/EpisodeDetailScreen.kt` — displays tapped episode’s character IDs.
 
 ### 🧪 Tested by
-- **UI:** `androidTest/.../ui/EpisodeDetailsScreenTest.kt` — Check the screen.
+- **UI:** `androidTest/.../ui/EpisodeDetailsScreenTest.kt` — Checks the screen.
 
 ---
 
@@ -132,15 +132,16 @@ This document explains **how each functional requirement** is implemented in the
 ## 1️⃣1️⃣ Unit & UI Test Suite Overview
 
 ### 🧪 Unit Tests
-| Category | Test Class | Purpose |
-|-----------|-------------|----------|
-| Remote | `RnMApiRemoteDataSourceTest.kt` | Retrofit + MockWebServer (success & 500) |
-| Repository | `EpisodesRepositoryImplTest.kt` | Sync loop, paging snapshot |
-| Repository | `CharacterRepositoryImplTest.kt` | Character fetching logic |
-| Mapping | `MapperTest.kt` | DTO ↔ Entity ↔ Domain conversions |
-| Paging | `EpisodesRemoteMediatorTest.kt` | In-memory Room + fake remote |
-| Domain | `BuildCharacterExportTextTest.kt` | Verifies export string format |
-| Utilities | `MainDispatcherRule.kt` | Provides coroutine dispatcher for tests |
+| Category   | Test Class                        | Purpose                                                 |
+|------------|-----------------------------------|---------------------------------------------------------|
+| Remote     | `RnMApiRemoteDataSourceTest.kt`   | Retrofit + MockWebServer (success & 500)                |
+| Repository | `EpisodesRepositoryImplTest.kt`   | Sync loop, paging snapshot                              |
+| Repository | `CharacterRepositoryImplTest.kt`  | Character fetching logic                                |
+| Mapping    | `MapperTest.kt`                   | DTO ↔ Entity ↔ Domain conversions                       |
+| Paging     | `EpisodesRemoteMediatorTest.kt`   | In-memory Room + fake remote                            |
+| Domain     | `BuildCharacterExportTextTest.kt` | Verifies export string format                           |
+| Utilities  | `MainDispatcherRule.kt`           | Provides coroutine dispatcher for tests                 |
+| Work       | `EpisodesSyncWorkerTest.kt`       | Verify that the worker calls the repo to syncEpisodes() |
 
 ---
 
